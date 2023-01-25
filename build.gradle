@@ -60,6 +60,10 @@ asciidoctor {
     //snippets 디렉토리를 input 디렉토리로 설정
     //asciidoctor가 사용할 input 파일들의 위치가 사전에 정해준 snippetsDir에 존재
     configurations 'asciidoctorExtensions'
+    sources {
+        include("**/index.adoc")
+    }
+    baseDirFollowsSourceFile()
     dependsOn test //build 시 test 작업 이후에 asciidoctor 수행
 }
 
@@ -69,7 +73,7 @@ asciidoctor.doLast { //결과 출력
 
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
-    from file("build/docs/asciidoc") //build 시
+    from file("${asciidoctor.outputDir}") //build 시
     into file("src/main/resources/static/docs") //html 생성
 }
 
